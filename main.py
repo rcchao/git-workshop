@@ -1,5 +1,6 @@
 from calculator.add import add
 from calculator.subtract import subtract
+from calculator.multiply import multiply
 from utils.format import pretty_print
 
 def run_demo():
@@ -7,6 +8,7 @@ def run_demo():
     results = {
         "add": add(x, y),
         "subtract": subtract(x, y),
+        "multiply": multiply(x, y),
     }
     pretty_print(results)
 
