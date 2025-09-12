@@ -1,26 +1,15 @@
-name: PR Notifications to Discord
+name: Discord Test
 
 on:
-  pull_request:
-    types: [review_requested]
-  pull_request_review:
-    types: [submitted]
+  workflow_dispatch: # lets you trigger manually from Actions tab
 
 jobs:
-  notify:
+  ping-discord:
     runs-on: ubuntu-latest
     steps:
-      - name: Set PR event message
-        id: set_message
-        run: |
-          if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.event.action }}" == "review_requested" ]]; then
-            echo "message=@${{ github.event.requested_reviewer.login }} you were requested to review PR #${{ github.event.pull_request.number }} by @${{ github.actor }}" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.event_name }}" == "pull_request_review" ]]; then
-            echo "message=@${{ github.event.pull_request.user.login }} your PR #${{ github.event.pull_request.number }} got a review from @${{ github.actor }}" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Send PR Notifications to Discord
+      - name: Send Test Message
         uses: Ilshidur/action-discord@master
-        with:
+        env:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          args: ${{ steps.set_message.outputs.message }}
+        with:
+          args: "✅ Hello from GitHub Actions!"
