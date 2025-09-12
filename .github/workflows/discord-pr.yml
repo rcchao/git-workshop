@@ -1,0 +1,19 @@
+name: PR Notifications to Discord
+
+on:
+  pull_request:
+    types: [review_requested, review_request_removed, opened, reopened]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send PR Notifications to Discord
+        uses: Ilshidur/action-discord@master
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          args: |
+            ${{ github.event_name == 'pull_request' && github.event.action == 'review_requested' && format('<@{0}> you were requested to review PR #{1} by {2}', github.event.requested_reviewer.login, github.event.pull_request.number, github.actor) || '' }}
+            ${{ github.event_name == 'pull_request_review' && format('<@{0}> your PR #{1} got a review from {2}', github.event.pull_request.user.login, github.event.pull_request.number, github.actor) || '' }}
