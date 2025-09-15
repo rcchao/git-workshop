@@ -2,6 +2,11 @@ name: Enforce Rebase
 
 on:
   workflow_dispatch:
+    inputs:
+      pr_sha:
+        description: 'SHA of the pull request head commit'
+        required: true
+        type: string
   pull_request:
     branches: [main]
 
@@ -42,7 +47,7 @@ jobs:
             github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha: process.env.GITHUB_SHA,
+              sha: ${{ github.event.inputs.pr_sha }},
               state: 'success',
               target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions`,
               description: 'Branch is rebased on latest main.',
@@ -58,7 +63,7 @@ jobs:
             github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha: process.env.GITHUB_SHA,
+              sha: ${{ github.event.inputs.pr_sha }},
               state: 'failure',
               target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions`,
               description: 'Branch is not rebased on latest main.',

@@ -20,8 +20,6 @@ jobs:
               base: 'main'
             });
 
-            console.log("open prs:", prs);
-
             for (const pr of prs.data) {
               // Set commit status to pending before dispatching workflow
               await github.rest.repos.createCommitStatus({
@@ -39,6 +37,9 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 workflow_id: 'enforce-rebase.yml',
-                ref: pr.head.ref
+                ref: pr.head.ref,
+                  inputs: {
+                  pr_sha: pr.head.sha
+                  }
               });
             }
