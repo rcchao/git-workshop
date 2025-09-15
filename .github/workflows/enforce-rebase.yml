@@ -44,7 +44,7 @@ jobs:
               repo: context.repo.repo,
               sha: process.env.GITHUB_SHA,
               state: 'success',
-              target_url: `${github.serverUrl}/${github.repository}/actions/runs/${github.runId}`,
+              target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions`,
               description: 'Branch is rebased on latest main.',
               context: 'Manual Check'
             });
@@ -60,7 +60,7 @@ jobs:
               repo: context.repo.repo,
               sha: process.env.GITHUB_SHA,
               state: 'failure',
-              target_url: `${github.serverUrl}/${github.repository}/actions/runs/${github.runId}`,
+              target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions`,
               description: 'Branch is not rebased on latest main.',
               context: 'Manual Check'
             });
