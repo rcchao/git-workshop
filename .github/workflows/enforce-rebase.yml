@@ -47,7 +47,7 @@ jobs:
             github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha: ${{ github.event.inputs.pr_sha }},
+              sha: context.payload.pull_request.head.sha,
               state: 'success',
               target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions`,
               description: 'Branch is rebased on latest main.',
@@ -63,7 +63,7 @@ jobs:
             github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha: ${{ github.event.inputs.pr_sha }},
+              sha: context.payload.pull_request.head.sha,
               state: 'failure',
               target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions`,
               description: 'Branch is not rebased on latest main.',
