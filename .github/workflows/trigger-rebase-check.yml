@@ -23,6 +23,18 @@ jobs:
             console.log("open prs:", prs);
 
             for (const pr of prs.data) {
+              // Set commit status to pending before dispatching workflow
+              await github.rest.repos.createCommitStatus({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                sha: pr.head.sha,
+                state: 'pending',
+                target_url: `${github.serverUrl}/${github.repository}/actions`,
+                description: 'Rebase check in progress',
+                context: 'Manual Check'
+              });
+
+              // Dispatch the enforce-rebase workflow
               await github.rest.actions.createWorkflowDispatch({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
