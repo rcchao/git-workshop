@@ -1,4 +1,4 @@
-name: Add JIRA Link to PR
+name: Add Jira Link to PR
 
 on:
   pull_request:
