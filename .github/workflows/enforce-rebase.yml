@@ -25,6 +25,6 @@ jobs:
 
           # Ensure PR branch is directly on top of main
           if [ "$MERGE_BASE" != "$LATEST_MAIN" ]; then
-            echo "Branch is not rebased on latest main. Run git fetch, git rebase origin/main and then resolve all merge conflicts with the Merge Editor. Continue the rebase with git rebase --continue until your rebase has completed successfully. Finish with git push --force to rebase."
+            echo "Branch is not rebased on latest main. Run git fetch, git rebase origin/main and then resolve any/all merge conflicts with the Merge Editor. Continue the rebase with git rebase --continue until your rebase has completed successfully. Finish with git push --force to rebase."
             exit 1
           fi
