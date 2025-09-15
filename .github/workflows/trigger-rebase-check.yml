@@ -1,4 +1,4 @@
-name: Trigger Rebase Check
+name: Trigger Rebase Check On Open PRs
 
 on:
   push:
