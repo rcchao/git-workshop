@@ -28,7 +28,7 @@ jobs:
             const ticket = process.env.ticket || "${{ steps.extract.outputs.ticket }}";
             if (ticket) {
               const jiraLink = `https://comp30022weroster2025s2.atlassian.net/browse/${ticket}`;
-              const body = `_[JIRA Ticket](${jiraLink})_\n\n${context.payload.pull_request.body || ""}`;
+              const body = `_[Jira Ticket](${jiraLink})_\n\n${context.payload.pull_request.body || ""}`;
               await github.rest.pulls.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
