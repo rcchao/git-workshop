@@ -39,25 +39,17 @@ jobs:
           fi
 
       - name: Set PR status to success
-        if: steps.rebase_check.outputs.status == 'success'
+        if: github.event_name == 'workflow_dispatch' && steps.rebase_check.outputs.status == 'success'
         uses: actions/github-script@v6
         env:
           PR_SHA: ${{ github.event.inputs.pr_sha }}
         with:
           github-token: ${{ secrets.PAT_TOKEN }}
           script: |
-            let sha;
-            if (context.eventName === 'workflow_dispatch') {
-              sha = process.env.PR_SHA;
-            } else if (context.eventName === 'pull_request') {
-              sha = context.payload.pull_request.head.sha;
-            } else {
-              sha = process.env.GITHUB_SHA;
-            }
             github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha,
+              sha: process.env.PR_SHA,
               state: 'success',
               target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions`,
               description: 'Branch is rebased on latest main.',
@@ -65,25 +57,17 @@ jobs:
             });
 
       - name: Set PR status to failure
-        if: steps.rebase_check.outputs.status == 'failure'
+        if: github.event_name == 'workflow_dispatch' && steps.rebase_check.outputs.status == 'failure'
         uses: actions/github-script@v6
         env:
           PR_SHA: ${{ github.event.inputs.pr_sha }}
         with:
           github-token: ${{ secrets.PAT_TOKEN }}
           script: |
-            let sha;
-            if (context.eventName === 'workflow_dispatch') {
-              sha = process.env.PR_SHA;
-            } else if (context.eventName === 'pull_request') {
-              sha = context.payload.pull_request.head.sha;
-            } else {
-              sha = process.env.GITHUB_SHA;
-            }
             github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha,
+              sha: process.env.PR_SHA,
               state: 'failure',
               target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions`,
               description: 'Branch is not rebased on latest main.',
