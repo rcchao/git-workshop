@@ -64,7 +64,7 @@ jobs:
             });
 
       - name: Set PR status to failure
-        if: github.event_name == 'workflow_dispatch' && steps.rebase_check.outputs.status == 'failure'
+        if: github.event_name == 'workflow_dispatch'
         uses: actions/github-script@v6
         env:
           PR_SHA: ${{ github.event.inputs.pr_sha }}
