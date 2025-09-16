@@ -54,7 +54,7 @@ jobs:
               description: 'Branch is not rebased on latest main.',
               context: 'Automated Rebase Check'
             });
-    
+
       - name: Set PR status to success
         if: github.event_name == 'workflow_dispatch' && steps.rebase_check.outputs.status == 'success'
         uses: actions/github-script@v6
@@ -72,3 +72,7 @@ jobs:
               description: 'Branch is rebased on latest main.',
               context: 'Automated Rebase Check'
             });
+
+      - name: Fail job if rebase check failed
+        if: github.event_name == 'pull_request' && steps.rebase_check.outputs.status == 'failure'
+        run: exit 1
