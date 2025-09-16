@@ -1,3 +1,3 @@
 def divide(a, b):
-    #ad
+    #a
     return a // b
