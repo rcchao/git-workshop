@@ -1,3 +1,3 @@
 def multiply(x, y):
-    # mul
+    # mu
     return x * y
