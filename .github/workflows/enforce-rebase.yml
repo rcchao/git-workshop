@@ -38,6 +38,12 @@ jobs:
             echo "status=success" >> $GITHUB_OUTPUT
           fi
 
+      - name: Debug SHA values
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "Input SHA (pr_sha): ${{ github.event.inputs.pr_sha }}"
+          echo "Checked out commit SHA: $(git rev-parse HEAD)"
+
       - name: Set PR status to success
         if: github.event_name == 'workflow_dispatch' && steps.rebase_check.outputs.status == 'success'
         uses: actions/github-script@v6
