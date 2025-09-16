@@ -52,7 +52,7 @@ jobs:
               state: 'failure',
               target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions`,
               description: 'Branch is not rebased on latest main.',
-              context: 'Manual Check'
+              context: 'Automated Rebase Check'
             });
     
       - name: Set PR status to success
@@ -70,5 +70,5 @@ jobs:
               state: 'success',
               target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions`,
               description: 'Branch is rebased on latest main.',
-              context: 'Manual Check'
+              context: 'Automated Rebase Check'
             });
