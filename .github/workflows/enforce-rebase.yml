@@ -43,6 +43,7 @@ jobs:
         run: |
           echo "Input SHA (pr_sha): ${{ github.event.inputs.pr_sha }}"
           echo "Checked out commit SHA: $(git rev-parse HEAD)"
+          echo "Head Commit SHA: ${{ github.event.pull_request.head.sha }}"
 
       - name: Set PR status to success
         if: github.event_name == 'workflow_dispatch' && steps.rebase_check.outputs.status == 'success'
