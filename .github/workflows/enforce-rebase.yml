@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       pr_sha:
-        description: 'SHA of the pull request head commit'
+        description: "SHA of the pull request head commit"
         required: true
         type: string
   pull_request:
@@ -43,7 +43,7 @@ jobs:
         env:
           PR_SHA: ${{ github.event.inputs.pr_sha }}
         with:
-          github-token: ${{ secrets.PAT_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
@@ -54,14 +54,14 @@ jobs:
               description: 'Branch is not rebased on latest main.',
               context: 'Automated Rebase Check'
             });
-    
+
       - name: Set PR status to success
         if: github.event_name == 'workflow_dispatch' && steps.rebase_check.outputs.status == 'success'
         uses: actions/github-script@v6
         env:
           PR_SHA: ${{ github.event.inputs.pr_sha }}
         with:
-          github-token: ${{ secrets.PAT_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
@@ -72,3 +72,7 @@ jobs:
               description: 'Branch is rebased on latest main.',
               context: 'Automated Rebase Check'
             });
+
+      - name: Fail job if rebase check failed
+        if: github.event_name == 'pull_request' && steps.rebase_check.outputs.status == 'failure'
+        run: exit 1
